@@ -1,0 +1,12 @@
+.oyb-status {
+    flex-direction: column;
+}
+
+.oyb-row {
+    justify-content: space-between;
+}
+
+.btn-enter {
+    justify-self: center;
+    align-self: center;
+}

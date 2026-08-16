@@ -1,0 +1,28 @@
+{
+  "name": "ownyourband",
+  "version": "0.0.1",
+  "devDependencies": {
+    "@aiot-toolkit/jsc": "^1.0.3",
+    "aiot-toolkit": "^2.0.5"
+  },
+  "description": "",
+  "lint-staged": {
+    "*.{ux,js}": [
+      "prettier --write",
+      "eslint --format codeframe --fix",
+      "git add"
+    ],
+    "*.{less,css}": [
+      "prettier --write",
+      "stylelint --fix --custom-syntax postcss-less",
+      "git add"
+    ]
+  },
+  "private": true,
+  "scripts": {
+    "start": "aiot start --watch",
+    "build": "aiot build",
+    "release": "aiot release",
+    "lint": "eslint --format codeframe --fix --ext .ux,.js src/"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "package": "com.ownyourband",
+  "name": "ownyourband",
+  "icon": "/common/logo.png",
+  "versionName": "0.0.1",
+  "versionCode": 1,
+  "minAPILevel": 1,
+  "deviceTypeList": ["watch"],
+  "display": {
+    "backgroundColor": "#0a0a0a"
+  },
+  "features": [
+    {
+      "name": "system.device"
+    },
+    {
+      "name": "system.router"
+    },
+    {
+      "name": "system.interconnect"
+    }
+  ],
+  "config": {
+    "logLevel": "log",
+    "designWidth": "device-width",
+    "background": {}
+  },
+  "router": {
+    "entry": "pages/index",
+    "pages": {
+      "pages/index": {
+        "component": "index"
+      },
+      "pages/detail": {
+        "component": "detail"
+      },
+      "pages/info": {
+        "component": "info"
+      }
+    }
+  }
+}

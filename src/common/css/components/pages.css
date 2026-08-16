@@ -1,0 +1,34 @@
+.page {
+    padding: 3px;
+    background-color: #0a0a0a;
+
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    color: #fafafa;
+}
+
+.page-header {
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.page-content {
+    padding: 3px;
+
+    flex-direction: column;
+    justify-content: flex-start;
+
+    flex-grow: 1;
+    align-items: stretch;
+
+    color: #fafafa;
+}
+
+.page-footer {
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+}

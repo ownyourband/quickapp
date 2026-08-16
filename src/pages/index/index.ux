@@ -1,0 +1,86 @@
+<template>
+	<div class="page">
+		<div class="page-header">
+			<input class="btn btn-info" type="button" @click="onInfoClick" />
+		</div>
+
+		<div class="page-content" style="{{ safeStyle }}">
+			<text class="page-title">OYB Manager</text>
+
+			<div class="oyb-status">
+				<div class="oyb-row">
+					<text>status:</text>
+					<text>meowing</text>
+				</div>
+				<div class="oyb-row">
+					<text>iscircle:</text>
+					<text>{{ isCircle }}</text>
+				</div>
+				<div class="oyb-row">
+					<text>width:</text>
+					<text>{{ width }}</text>
+				</div>
+				<div class="oyb-row">
+					<text>height:</text>
+					<text>{{ height }}</text>
+				</div>
+				<div class="oyb-row">
+					<text>cwidth:</text>
+					<text>{{ safeStyle.width }}</text>
+				</div>
+				<div class="oyb-row">
+					<text>cheight:</text>
+					<text>{{ safeStyle.height }}</text>
+				</div>
+			</div>
+
+			<input class="btn btn-enter" type="button" value="enter" />
+		</div>
+
+		<div class="page-footer">
+			<input id="btn-new" class="btn btn-blue btn-add" type="button" />
+		</div>
+	</div>
+</template>
+
+<script>
+import { getSafeStyle } from "../../common/js/screen";
+import device from "@system.device";
+import router from "@system.router";
+
+export default {
+	private: {
+		safeStyle: {},
+		isCircle: false,
+		height: "0",
+		width: "0",
+	},
+	onInit() {
+		getSafeStyle((style) => {
+			this.safeStyle = style;
+		});
+
+		device.getInfo({
+			success: (info) => {
+				this.height = info.screenHeight + "px";
+				this.width = info.screenWidth + "px";
+				this.isCircle = info.screenShape === "circle";
+			},
+		});
+	},
+
+	onInfoClick() {
+		router.push({
+			uri: "pages/info",
+		});
+	},
+};
+</script>
+
+<style>
+/* For shared styles  */
+@import url("../../common/css/main.css");
+
+/* Page specific */
+@import url("./style.css");
+</style>

@@ -1,0 +1,28 @@
+.btn {
+    margin: 3px;
+
+    border-width: 3px;
+    border-color: #353535;
+
+    width: 100px;
+    height: 70px;
+
+    background-color: #212021;
+    background-position: center;
+
+    color: #fafafa;
+    font-size: 25px;
+}
+
+.btn-blue {
+    border-color: #1761ce;
+    background-color: #0961e6;
+}
+
+.btn-info {
+    background-image: url("/common/icons/info.png");
+}
+
+.btn-add {
+    background-image: url("/common/icons/plus.png");
+}
