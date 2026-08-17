@@ -1,0 +1,49 @@
+name: Pre-release
+
+on:
+  push:
+    tags:
+      - "v*-*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Sync version into manifest.json
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          jq --arg v "$VERSION" '.versionName = $v' \
+            src/manifest.json > src/manifest.tmp.json
+          mv src/manifest.tmp.json src/manifest.json
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install aiot-toolkit globally
+        run: bun install -g aiot-toolkit
+
+      - name: Add bun global bin to PATH
+        run: echo "$HOME/.bun/bin" >> "$GITHUB_PATH"
+
+      - name: Install project dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build
+        run: aiot build
+
+      - name: Create GitHub pre-release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{ github.ref_name }}
+          tag_name: ${{ github.ref_name }}
+          prerelease: true
+          files: dist/*.rpk
+          generate_release_notes: true

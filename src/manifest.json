@@ -2,7 +2,7 @@
   "package": "com.ownyourband",
   "name": "Own Your Band!",
   "icon": "/common/icons/bug.png",
-  "versionName": "0.0.1-spike.3",
+  "versionName": "0.0.1-spike.4",
   "versionCode": 1,
   "minAPILevel": 1,
   "deviceTypeList": ["watch"],
