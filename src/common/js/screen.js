@@ -44,9 +44,6 @@ async function computeContentProp(screenProp) {
     // Removing the radius from the height calculation to
     // account for the top/bottom edges (pill-shaped screens)
     height: screenProp.height - 2 * radius + "px",
-    // TODO: figure out the proper width to use, currently the screen is too wide
-    // and enables the side scrolling, making it impossible to exit the app
-    // For now, use the full screen width
     width: screenProp.width + "px",
   };
 
@@ -58,7 +55,6 @@ async function computeContentProp(screenProp) {
     contentProp.height = screenProp.height - radius + "px";
     // for some reason, this width fits great
     contentProp.width = screenProp.width - radius / 2 + "px";
-    // TODO: make sure it fits, also figure out a way to stop recalculating it for every screen
   }
 
   return contentProp;
