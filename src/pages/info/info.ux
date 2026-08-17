@@ -8,7 +8,7 @@
 			class="page-content"
 			scroll-y="true"
 			bounces="true"
-			style="{{ safeStyle }}"
+			style="{{ data.content }}"
 		>
 			<text class="page-title">Own Your Band {{ version }}</text>
 			<text>This is the info page of Own Your Band quickapp</text>
@@ -18,46 +18,32 @@
 			<text>This is a very long text to test text wrapping</text>
 			<text>This is a very long text to test text wrapping</text>
 			<text>This is a very long text to test text wrapping</text>
+			<text>This is a very long text to test text wrapping</text>
+			<text>This is a very long text to test text wrapping</text>
+			<text>This is a very long text to test text wrapping</text>
+			<text>This is a very long text to test text wrapping</text>
 		</scroll>
 
-		<div class="page-footer"></div>
-		<input class="btn btn-blue btn-debug" type="button" @click="goDebug" />
+		<div class="page-footer">
+			<input class="btn btn-blue btn-debug" type="button" @click="goDebug" />
+		</div>
 	</div>
 </template>
 
 <script>
-import { getContentSize } from "../../common/js/screen";
-import { navigateTo, goBack, goDebug } from "../../common/js/routing";
-
-import device from "@system.device";
+import { goDebug, goBack } from "../../common/js/routing";
 import app from "@system.app";
 
 export default {
-	private: {
+	data: {
 		version: app.getInfo().versionName,
-		safeStyle: {},
-		isCircle: false,
-		height: "0",
-		width: "0",
 	},
+	goDebug,
+	goBack,
 
 	onInit() {
-		getContentSize((style) => {
-			this.safeStyle = style;
-		});
-
-		device.getInfo({
-			success: (info) => {
-				this.height = info.screenHeight + "px";
-				this.width = info.screenWidth + "px";
-				this.isCircle = info.screenShape === "circle";
-			},
-		});
+		Object.assign(this, this.$app.$def);
 	},
-
-	navigateTo,
-	goBack,
-	goDebug,
 };
 </script>
 

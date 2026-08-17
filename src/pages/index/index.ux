@@ -57,7 +57,6 @@ export default {
 	goInfo,
 
 	onInit() {
-		console.log(this);
 		Object.assign(this, this.$app.$def);
 	},
 };

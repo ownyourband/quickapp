@@ -23,44 +23,18 @@
 </template>
 
 <script>
-import { getSafeStyle } from "../../common/js/screen";
-import { navigateTo, goBack, goDebug } from "../../common/js/routing";
-
-import device from "@system.device";
-import router from "@system.router";
+import { goDebug, goBack } from "../../common/js/routing";
+import app from "@system.app";
 
 export default {
-	private: {
-		safeStyle: {},
-		isCircle: false,
-		height: "0",
-		width: "0",
+	data: {
+		version: app.getInfo().versionName,
 	},
-
-	navigateTo,
-	goBack,
 	goDebug,
+	goBack,
 
 	onInit() {
-		getSafeStyle((style) => {
-			this.safeStyle = style;
-		});
-
-		device.getInfo({
-			success: (info) => {
-				this.height = info.screenHeight + "px";
-				this.width = info.screenWidth + "px";
-				this.isCircle = info.screenShape === "circle";
-			},
-		});
-	},
-
-	onInfoClick() {
-		console.log("info clicked");
-
-		router.push({
-			uri: "/pages/info",
-		});
+		Object.assign(this, this.$app.$def);
 	},
 };
 </script>
