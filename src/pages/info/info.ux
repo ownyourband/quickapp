@@ -21,16 +21,15 @@
 		</scroll>
 
 		<div class="page-footer"></div>
-		<input class="btn btn-debug" type="button" @click="goDebug" />
+		<input class="btn btn-blue btn-debug" type="button" @click="goDebug" />
 	</div>
 </template>
 
 <script>
-import { getSafeStyle } from "../../common/js/screen";
+import { getContentSize } from "../../common/js/screen";
 import { navigateTo, goBack, goDebug } from "../../common/js/routing";
 
 import device from "@system.device";
-import router from "@system.router";
 import app from "@system.app";
 
 export default {
@@ -43,7 +42,7 @@ export default {
 	},
 
 	onInit() {
-		getSafeStyle((style) => {
+		getContentSize((style) => {
 			this.safeStyle = style;
 		});
 

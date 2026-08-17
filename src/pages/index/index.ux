@@ -1,80 +1,64 @@
 <template>
 	<div class="page">
 		<div class="page-header">
-			<input class="btn btn-info" type="button" @click="onInfoClick" />
+			<input class="btn btn-info" type="button" @click="goInfo" />
 		</div>
 
-		<div class="page-content" style="{{ safeStyle }}">
+		<div class="page-content" style="{{ data.content }}">
 			<text class="page-title">OYB Manager</text>
 
 			<div class="oyb-status">
 				<div class="oyb-row">
 					<text>status:</text>
-					<text>meowing</text>
+					<text>{{ data.cat }}</text>
 				</div>
 				<div class="oyb-row">
 					<text>iscircle:</text>
-					<text>{{ isCircle }}</text>
+					<text>{{ data.screen.isCircle }}</text>
 				</div>
 				<div class="oyb-row">
 					<text>width:</text>
-					<text>{{ width }}</text>
+					<text>{{ data.screen.width }}</text>
 				</div>
 				<div class="oyb-row">
 					<text>height:</text>
-					<text>{{ height }}</text>
+					<text>{{ data.screen.height }}</text>
 				</div>
 				<div class="oyb-row">
 					<text>cwidth:</text>
-					<text>{{ safeStyle.width }}</text>
+					<text>{{ data.content.width }}</text>
 				</div>
 				<div class="oyb-row">
 					<text>cheight:</text>
-					<text>{{ safeStyle.height }}</text>
+					<text>{{ data.content.height }}</text>
 				</div>
 			</div>
-
-			<input class="btn btn-enter" type="button" value="enter" />
 		</div>
 
 		<div class="page-footer">
-			<input id="btn-new" class="btn btn-blue btn-add" type="button" />
+			<input
+				id="btn-new"
+				class="btn btn-blue btn-debug"
+				type="button"
+				@click="goDebug"
+			/>
 		</div>
 	</div>
 </template>
 
 <script>
-import { getSafeStyle } from "../../common/js/screen";
-import device from "@system.device";
-import router from "@system.router";
+import { goDebug, goInfo } from "../../common/js/routing";
 
 export default {
-	private: {
-		safeStyle: {},
-		isCircle: false,
-		height: "0",
-		width: "0",
+	data: {
+		cat: "purr",
 	},
+	goDebug,
+	goInfo,
+
 	onInit() {
-		getSafeStyle((style) => {
-			this.safeStyle = style;
-		});
-
-		device.getInfo({
-			success: (info) => {
-				this.height = info.screenHeight + "px";
-				this.width = info.screenWidth + "px";
-				this.isCircle = info.screenShape === "circle";
-			},
-		});
-	},
-
-	onInfoClick() {
-		console.log("info clicked");
-
-		router.push({
-			uri: "/pages/info",
-		});
+		console.log(this);
+		Object.assign(this, this.$app.$def);
 	},
 };
 </script>
