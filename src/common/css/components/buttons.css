@@ -19,18 +19,31 @@
     background-color: #0961e6;
 }
 
-.btn-info {
-    background-image: url("/common/icons/info.png");
+.btn-red {
+    border-color: #ce1717;
+    background-color: #e60909;
 }
 
-.btn-add {
-    background-image: url("/common/icons/plus.png");
+.btn-back {
+    background-image: url("/common/icons/left.png");
+}
+
+.btn-info {
+    background-image: url("/common/icons/info.png");
 }
 
 .btn-debug {
     background-image: url("/common/icons/bug.png");
 }
 
-.btn-back {
-    background-image: url("/common/icons/left.png");
+.btn-connect {
+    background-image: url("/common/icons/connect.png");
+}
+
+.btn-disconnect {
+    background-image: url("/common/icons/disconnect.png");
+}
+
+.btn-add {
+    background-image: url("/common/icons/plus.png");
 }

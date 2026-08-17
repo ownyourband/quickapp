@@ -6,19 +6,16 @@
 
 		<div class="page-content" style="{{ safeStyle }}">
 			<text class="page-title">Debug Menu</text>
-
-			<div class="oyb-status">
-				<div class="oyb-row">
-					<text>status:</text>
-				</div>
-
-				<input class="btn btn-enter" type="button" value="enter" />
-			</div>
-
-			<div class="page-footer">
-				<input id="btn-new" class="btn btn-blue btn-add" type="button" />
-			</div>
+			<input class="btn" type="button" value="button" />
+			<input class="btn btn-info" type="button" />
+			<input class="btn btn-back" type="button" />
+			<input class="btn btn-debug" type="button" />
+			<input class="btn btn-blue btn-connect" type="button" />
+			<input class="btn btn-red btn-disconnect" type="button" />
+			<input class="btn btn-blue btn-add" type="button" />
 		</div>
+
+		<div class="page-footer"></div>
 	</div>
 </template>
 
