@@ -2,7 +2,7 @@
   "package": "com.ownyourband",
   "name": "ownyourband",
   "icon": "/common/logo.png",
-  "versionName": "0.0.1",
+  "versionName": "0.0.1-spike",
   "versionCode": 1,
   "minAPILevel": 1,
   "deviceTypeList": ["watch"],
@@ -18,6 +18,10 @@
     },
     {
       "name": "system.interconnect"
+    },
+
+    {
+      "name": "system.app"
     }
   ],
   "config": {

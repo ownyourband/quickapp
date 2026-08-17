@@ -1,15 +1,7 @@
-# quickapp
+# OYB Quickapp
 
-To install dependencies:
+This repository is currently on very early stages of development and not even close to being usable. For now, this repo will host the framework demos, tests of functionalities and limitations.
 
-```bash
-bun install
-```
-
-To run:
-
-```bash
-bun run index.ts
-```
-
-This project was created using `bun init` in bun v1.3.13. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
+#daedff
+#028aff
+#1a2049
