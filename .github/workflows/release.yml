@@ -4,7 +4,6 @@ on:
   push:
     tags:
       - "v*-*"
-  workflow_dispatch:
 
 permissions:
   contents: write
@@ -39,11 +38,17 @@ jobs:
       - name: Build
         run: aiot build
 
-      - name: Create GitHub pre-release
+      - name: Create draft pre-release with asset
         uses: softprops/action-gh-release@v2
         with:
           name: ${{ github.ref_name }}
           tag_name: ${{ github.ref_name }}
           prerelease: true
+          draft: true
           files: dist/*.rpk
           generate_release_notes: true
+
+      - name: Publish the release
+        run: gh release edit ${{ github.ref_name }} --draft=false
+        env:
+          GH_TOKEN: ${{ github.token }}
