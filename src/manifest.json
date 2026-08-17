@@ -1,8 +1,8 @@
 {
   "package": "com.ownyourband",
-  "name": "ownyourband",
-  "icon": "/common/logo.png",
-  "versionName": "0.0.1-spike",
+  "name": "Own Your Band!",
+  "icon": "/common/icons/bug.png",
+  "versionName": "0.0.1-spike.1",
   "versionCode": 1,
   "minAPILevel": 1,
   "deviceTypeList": ["watch"],
@@ -40,6 +40,9 @@
       },
       "pages/info": {
         "component": "info"
+      },
+      "pages/debug": {
+        "component": "debug"
       }
     }
   }

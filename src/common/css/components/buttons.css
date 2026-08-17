@@ -27,6 +27,10 @@
     background-image: url("/common/icons/plus.png");
 }
 
+.btn-debug {
+    background-image: url("/common/icons/bug.png");
+}
+
 .btn-back {
     background-image: url("/common/icons/left.png");
 }
