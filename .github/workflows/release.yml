@@ -5,6 +5,12 @@ on:
     branches: [main]
     paths:
       - "src/manifest.json"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Build even if versionName hasn't changed"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -35,30 +41,47 @@ jobs:
             echo "changed=false" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Decide whether to build
+        id: gate
+        run: |
+          if [[ "${{ steps.version_check.outputs.changed }}" == "true" || "${{ github.event.inputs.force }}" == "true" ]]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Setup Bun
-        if: steps.version_check.outputs.changed == 'true'
+        if: steps.gate.outputs.run == 'true'
         uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
 
       - name: Install aiot-toolkit globally
-        if: steps.version_check.outputs.changed == 'true'
+        if: steps.gate.outputs.run == 'true'
         run: bun install -g aiot-toolkit
 
       - name: Add bun global bin to PATH
-        if: steps.version_check.outputs.changed == 'true'
+        if: steps.gate.outputs.run == 'true'
         run: echo "$HOME/.bun/bin" >> "$GITHUB_PATH"
 
       - name: Install project dependencies
-        if: steps.version_check.outputs.changed == 'true'
+        if: steps.gate.outputs.run == 'true'
         run: bun install --frozen-lockfile
 
       - name: Build
-        if: steps.version_check.outputs.changed == 'true'
+        if: steps.gate.outputs.run == 'true'
         run: aiot build
 
+      - name: Verify build output exists
+        if: steps.gate.outputs.run == 'true'
+        run: |
+          if ! ls dist/*.rpk > /dev/null 2>&1; then
+            echo "::error::aiot build did not produce a .rpk file — check the build log above for the real error."
+            exit 1
+          fi
+
       - name: Create draft pre-release with asset
-        if: steps.version_check.outputs.changed == 'true'
+        if: steps.gate.outputs.run == 'true'
         uses: softprops/action-gh-release@v2
         with:
           name: v${{ steps.version_check.outputs.current }}
@@ -69,7 +92,7 @@ jobs:
           generate_release_notes: true
 
       - name: Publish the release
-        if: steps.version_check.outputs.changed == 'true'
+        if: steps.gate.outputs.run == 'true'
         run: gh release edit v${{ steps.version_check.outputs.current }} --draft=false
         env:
           GH_TOKEN: ${{ github.token }}
