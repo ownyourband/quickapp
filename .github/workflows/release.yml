@@ -2,8 +2,9 @@ name: Pre-release
 
 on:
   push:
-    tags:
-      - "v*-*"
+    branches: [main]
+    paths:
+      - "src/manifest.json"
 
 permissions:
   contents: write
@@ -13,42 +14,62 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
 
-      - name: Sync version into manifest.json
+      - name: Check if versionName changed
+        id: version_check
         run: |
-          VERSION="${GITHUB_REF_NAME#v}"
-          jq --arg v "$VERSION" '.versionName = $v' \
-            src/manifest.json > src/manifest.tmp.json
-          mv src/manifest.tmp.json src/manifest.json
+          CURRENT=$(jq -r '.versionName' src/manifest.json)
+          echo "current=$CURRENT" >> "$GITHUB_OUTPUT"
+
+          if git show HEAD^:src/manifest.json > /tmp/prev_manifest.json 2>/dev/null; then
+            PREVIOUS=$(jq -r '.versionName' /tmp/prev_manifest.json)
+          else
+            PREVIOUS=""
+          fi
+
+          if [[ "$CURRENT" != "$PREVIOUS" ]]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Setup Bun
+        if: steps.version_check.outputs.changed == 'true'
         uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
 
       - name: Install aiot-toolkit globally
+        if: steps.version_check.outputs.changed == 'true'
         run: bun install -g aiot-toolkit
 
       - name: Add bun global bin to PATH
+        if: steps.version_check.outputs.changed == 'true'
         run: echo "$HOME/.bun/bin" >> "$GITHUB_PATH"
 
       - name: Install project dependencies
+        if: steps.version_check.outputs.changed == 'true'
         run: bun install --frozen-lockfile
 
       - name: Build
+        if: steps.version_check.outputs.changed == 'true'
         run: aiot build
 
       - name: Create draft pre-release with asset
+        if: steps.version_check.outputs.changed == 'true'
         uses: softprops/action-gh-release@v2
         with:
-          name: ${{ github.ref_name }}
-          tag_name: ${{ github.ref_name }}
+          name: v${{ steps.version_check.outputs.current }}
+          tag_name: v${{ steps.version_check.outputs.current }}
           prerelease: true
           draft: true
           files: dist/*.rpk
           generate_release_notes: true
 
       - name: Publish the release
-        run: gh release edit ${{ github.ref_name }} --draft=false
+        if: steps.version_check.outputs.changed == 'true'
+        run: gh release edit v${{ steps.version_check.outputs.current }} --draft=false
         env:
           GH_TOKEN: ${{ github.token }}
