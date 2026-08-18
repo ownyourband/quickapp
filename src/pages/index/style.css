@@ -1,4 +1,4 @@
-.oyb-status {
+.landing-content {
     flex-direction: column;
 }
 
@@ -6,7 +6,24 @@
     justify-content: space-between;
 }
 
-.btn-enter {
-    justify-self: center;
-    align-self: center;
+.sub-title {
+    font-weight: bold;
+    font-size: 22px;
+    color: lightblue;
+    text-align: center;
+}
+
+.daemon-content {
+    flex-direction: column;
+    align-items: center;
+
+    text-align: center;
+}
+
+.daemon-status {
+    font-weight: bold;
+}
+
+.device-version {
+    font-weight: bold;
 }

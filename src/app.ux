@@ -1,5 +1,6 @@
 <script>
 import { getScreenSize, getContentSize } from "./common/js/screen.js";
+import interconnect from "@system.interconnect";
 
 export default {
 	// for some reason, these defs seem to be static
@@ -21,6 +22,19 @@ export default {
 			const contentProp = await getContentSize(screenProp);
 			console.log("content properties:", contentProp);
 			this.data.content = contentProp;
+
+			// populate daemon status
+			this.data.daemon = {};
+			this.data.daemon.status = "Disconnected";
+			this.data.daemon.style = { color: "red" };
+
+			// populate connection instance
+			this.data.connection = {};
+			const conn = interconnect.instance();
+			console.log("connection instance:", conn);
+			this.data.connection.instance = conn;
+
+			console.log(this);
 		} catch (err) {
 			console.error("onCreate failed:", err);
 		}

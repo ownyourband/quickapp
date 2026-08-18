@@ -1,0 +1,20 @@
+.card {
+    background-color: #1a1c19;
+    padding: 3px;
+    padding-left: 10px;
+    padding-right: 50px;
+
+    margin: 3px;
+    border-radius: 25px;
+    height: 100px;
+    align-items: center;
+    justify-content: space-between;
+
+    background-position: right;
+    background-image: url("/common/icons/card-chevron.png");
+}
+
+.card-icon {
+    background-color: #646363;
+    border-radius: 50%;
+}

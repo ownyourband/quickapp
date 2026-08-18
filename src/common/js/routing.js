@@ -11,14 +11,6 @@ export function navigateTo(pagename) {
   });
 }
 
-export function goDebug() {
-  navigateTo("debug");
-}
-
-export function goInfo() {
-  navigateTo("info");
-}
-
 export function goBack() {
   console.log("back clicked");
   router.back();

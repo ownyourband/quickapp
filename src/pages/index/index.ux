@@ -4,60 +4,47 @@
 			<input class="btn btn-info" type="button" @click="goInfo" />
 		</div>
 
-		<div class="page-content" style="{{ data.content }}">
-			<text class="page-title">OYB Manager</text>
+		<scroll
+			class="page-content"
+			scroll-y="true"
+			bounces="true"
+			style="{{ data.content }}"
+		>
+			<text class="page-title">Own Your Band!</text>
 
-			<div class="oyb-status">
-				<div class="oyb-row">
-					<text>status:</text>
-					<text>{{ data.cat }}</text>
-				</div>
-				<div class="oyb-row">
-					<text>iscircle:</text>
-					<text>{{ data.screen.isCircle }}</text>
-				</div>
-				<div class="oyb-row">
-					<text>width:</text>
-					<text>{{ data.screen.width }}</text>
-				</div>
-				<div class="oyb-row">
-					<text>height:</text>
-					<text>{{ data.screen.height }}</text>
-				</div>
-				<div class="oyb-row">
-					<text>cwidth:</text>
-					<text>{{ data.content.width }}</text>
-				</div>
-				<div class="oyb-row">
-					<text>cheight:</text>
-					<text>{{ data.content.height }}</text>
-				</div>
+			<div class="card" onclick="navigateTo('info')">
+				<image class="card-icon" src="/common/icons/bug.png" />
+				<text>go to info page</text>
 			</div>
-		</div>
+			<div class="card">
+				<text>another card</text>
+			</div>
+			<div class="card">
+				<text>yet another card</text>
+			</div>
+		</scroll>
 
 		<div class="page-footer">
 			<input
-				id="btn-new"
-				class="btn btn-blue btn-debug"
+				class="btn btn-blue btn-connect"
 				type="button"
-				@click="goDebug"
+				@click="connectDevice"
 			/>
 		</div>
 	</div>
 </template>
 
 <script>
-import { goDebug, goInfo } from "../../common/js/routing";
+import { navigateTo } from "../../common/js/routing";
 
 export default {
 	data: {
 		cat: "purr",
 	},
-	goDebug,
-	goInfo,
+	navigateTo,
 
 	onInit() {
-		Object.assign(this, this.$app.$def);
+		this.data = this.$app.$def.data;
 	},
 };
 </script>
