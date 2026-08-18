@@ -6,11 +6,6 @@ on:
     paths:
       - "src/manifest.json"
   workflow_dispatch:
-    inputs:
-      force:
-        description: "Build even if versionName hasn't changed"
-        type: boolean
-        default: false
 
 permissions:
   contents: write
@@ -44,10 +39,21 @@ jobs:
       - name: Decide whether to build
         id: gate
         run: |
-          if [[ "${{ steps.version_check.outputs.changed }}" == "true" || "${{ github.event.inputs.force }}" == "true" ]]; then
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" || "${{ steps.version_check.outputs.changed }}" == "true" ]]; then
             echo "run=true" >> "$GITHUB_OUTPUT"
           else
             echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Determine release tag
+        id: release_tag
+        if: steps.gate.outputs.run == 'true'
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            SHORT_SHA=$(git rev-parse --short HEAD)
+            echo "tag=v${{ steps.version_check.outputs.current }}-${SHORT_SHA}" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag=v${{ steps.version_check.outputs.current }}" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Setup Bun
@@ -84,8 +90,8 @@ jobs:
         if: steps.gate.outputs.run == 'true'
         uses: softprops/action-gh-release@v2
         with:
-          name: v${{ steps.version_check.outputs.current }}
-          tag_name: v${{ steps.version_check.outputs.current }}
+          name: ${{ steps.release_tag.outputs.tag }}
+          tag_name: ${{ steps.release_tag.outputs.tag }}
           prerelease: true
           draft: true
           files: dist/*.rpk
@@ -93,6 +99,6 @@ jobs:
 
       - name: Publish the release
         if: steps.gate.outputs.run == 'true'
-        run: gh release edit v${{ steps.version_check.outputs.current }} --draft=false
+        run: gh release edit ${{ steps.release_tag.outputs.tag }} --draft=false
         env:
           GH_TOKEN: ${{ github.token }}
