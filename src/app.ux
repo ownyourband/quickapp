@@ -1,6 +1,5 @@
 <script>
 import { getScreenSize, getContentSize } from "./common/js/screen.js";
-import { initConnection } from "./common/js/connection.js";
 
 import interconnect from "@system.interconnect";
 
@@ -14,6 +13,12 @@ export default {
 	async onCreate() {
 		try {
 			console.log("app created");
+
+			// Interconnect is managed by the platform. Keep its singleton around
+			// so pages can subscribe to its state and send data through it.
+			this.data.connection = {
+				instance: interconnect.instance(),
+			};
 
 			// populate screen properties
 			const screenProp = await getScreenSize();
@@ -30,11 +35,7 @@ export default {
 			this.data.daemon.status = "Disconnected";
 			this.data.daemon.style = { color: "red" };
 
-			// populate connection instance
-			this.data.connection = {};
-			const conn = interconnect.instance();
-			console.log("connection instance:", conn);
-			this.data.connection.instance = conn;
+			console.log("connection instance:", this.data.connection.instance);
 
 			console.log(this);
 		} catch (err) {

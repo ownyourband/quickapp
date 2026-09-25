@@ -27,3 +27,18 @@
 .device-version {
     font-weight: bold;
 }
+
+.card-content {
+    flex-direction: column;
+    justify-content: center;
+}
+
+.card-detail {
+    margin-top: 4px;
+    font-size: 18px;
+    color: #b8b8b8;
+}
+
+.status-card {
+    margin-top: 12px;
+}

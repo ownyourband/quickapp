@@ -1,37 +1,32 @@
 export function getConnectionState(connection) {
-  let connectionState = "disconnected";
-  console.log("the passed connection object:", connection);
-
-  connection.getReadyState({
-    success: (status) => {
-      console.log("connection success object", status);
-      connectionState = status;
-    },
-    fail: (message, code) => {
-      console.log("connection fail object", message, code);
-      connectionState = `BALL EXPOLOSTION: ${code}: ${message}`;
-    },
+  return new Promise((resolve, reject) => {
+    connection.getReadyState({
+      success: ({ status }) => {
+        if (status === 1) {
+          resolve("Connected");
+        } else if (status === 2) {
+          resolve("Disconnected");
+        } else {
+          resolve(`Unknown (${status})`);
+        }
+      },
+      fail: (message, code) => {
+        reject(new Error(`${code}: ${message}`));
+      },
+    });
   });
-  console.log("connection state object", connectionState);
-
-  return connectionState;
 }
+
 export function sendMessage(connection, message) {
-  console.log("got connection object in sendMessage:", connection);
-  console.log("message to send:", message);
-  connection.send({
-    data: {
-      str: "test",
-      num: 123,
-      message: message,
-    },
-    success: () => {
-      console.log(`handling success`);
-    },
-    fail: (data, code) => {
-      console.log(
-        `handling fail, errMsg = ${data.data}, errCode = ${data.code}`,
-      );
-    },
+  return new Promise((resolve, reject) => {
+    connection.send({
+      data: { message },
+      success: () => {
+        resolve();
+      },
+      fail: (errorMessage, code) => {
+        reject(new Error(`${code}: ${errorMessage}`));
+      },
+    });
   });
 }

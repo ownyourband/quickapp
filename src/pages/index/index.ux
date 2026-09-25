@@ -12,52 +12,72 @@
 		>
 			<text class="page-title">Own Your Band!</text>
 
-			<div class="card" onclick="navigateTo('info')">
-				<text>Connection status</text>
-			</div>
-			<div
-				class="card"
-				onclick="sendMessage(data.connection.instance, 'hello world')"
-			>
-				<text>Send hello</text>
+			<div class="card status-card" onclick="refreshConnectionStatus">
+				<div class="card-content">
+					<text>Connection</text>
+					<text class="card-detail">{{ connectionStatus }}</text>
+				</div>
 			</div>
 
-			<div class="card" onclick="navigateTo('info')">
-				<div class="card-icon">
-					<image class="icon-img" src="/common/icons/bug.png" />
-				</div>
+			<div class="card" onclick="sendHello">
 				<div class="card-content">
-					<text>idk what this is</text>
+					<text>Send hello</text>
+					<text class="card-detail">{{ sendStatus }}</text>
 				</div>
 			</div>
 		</scroll>
-		<div class="page-footer">
-			<input
-				class="btn btn-blue btn-connect"
-				type="button"
-				@click="connectDevice"
-			/>
-		</div>
 	</div>
 </template>
 
 <script>
 import { navigateTo } from "../../common/js/routing";
-import { sendMessage } from "../../common/js/connection";
+import { getConnectionState, sendMessage } from "../../common/js/connection";
 
 export default {
 	data: {
-		cat: "purr",
+		connectionStatus: "Checking…",
+		sendStatus: "Tap to send",
 	},
 	navigateTo,
-	sendMessage,
 
 	onInit() {
 		this.data = this.$app.$def.data;
-		console.log(
-			"index: this.data.connection.instance: ",
-			this.data.connection.instance
-		);
+		this.connection = this.data.connection.instance;
+
+		this.connection.onopen = () => {
+			this.connectionStatus = "Connected";
+		};
+		this.connection.onclose = () => {
+			this.connectionStatus = "Disconnected";
+		};
+		this.connection.onerror = (error) => {
+			console.error("interconnect error:", error);
+			this.connectionStatus = "Error";
+		};
+
+		this.refreshConnectionStatus();
+	},
+
+	async refreshConnectionStatus() {
+		this.connectionStatus = "Checking…";
+		try {
+			this.connectionStatus = await getConnectionState(this.connection);
+		} catch (error) {
+			console.error("failed to read interconnect state:", error);
+			this.connectionStatus = "Error";
+		}
+	},
+
+	async sendHello() {
+		this.sendStatus = "Sending…";
+		try {
+			await sendMessage(this.connection, "hello world");
+			this.sendStatus = "Sent";
+		} catch (error) {
+			console.error("failed to send hello:", error);
+			this.sendStatus = "Send failed";
+			this.refreshConnectionStatus();
+		}
 	},
 };
 </script>
