@@ -1,5 +1,7 @@
 <script>
 import { getScreenSize, getContentSize } from "./common/js/screen.js";
+import { initConnection } from "./common/js/connection.js";
+
 import interconnect from "@system.interconnect";
 
 export default {

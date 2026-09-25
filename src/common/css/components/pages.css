@@ -17,8 +17,6 @@
 }
 
 .page-content {
-    padding: 3px;
-
     flex-direction: column;
     justify-content: flex-start;
 

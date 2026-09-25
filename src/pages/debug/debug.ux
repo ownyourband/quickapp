@@ -11,6 +11,7 @@
 			style="{{ data.content }}"
 		>
 			<text class="page-title">Debug Menu</text>
+			<text class="page-title">Own Your Band!</text>
 
 			<div class="oyb-status">
 				<div class="oyb-row">
@@ -39,6 +40,22 @@
 				</div>
 			</div>
 
+			<div class="card">
+				<text>Running mode</text>
+			</div>
+			<div class="card">
+				<text>Band displays</text>
+			</div>
+
+			<div class="card" onclick="navigateTo('info')">
+				<div class="card-icon">
+					<image class="icon-img" src="/common/icons/bug.png" />
+				</div>
+				<div class="card-content">
+					<text>Daemon settings</text>
+				</div>
+			</div>
+
 			<input class="btn" type="button" value="button" />
 			<input class="btn btn-info" type="button" />
 			<input class="btn btn-back" type="button" />
@@ -53,14 +70,13 @@
 </template>
 
 <script>
-import { goDebug, goBack } from "../../common/js/routing";
+import { goBack } from "../../common/js/routing";
 import app from "@system.app";
 
 export default {
 	data: {
 		version: app.getInfo().versionName,
 	},
-	goDebug,
 	goBack,
 
 	onInit() {

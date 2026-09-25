@@ -1,20 +1,34 @@
 .card {
-    background-color: #1a1c19;
+    height: 92px;
+
     padding: 3px;
-    padding-left: 10px;
-    padding-right: 50px;
+    margin: 5px;
+    margin-left: 0px;
+    margin-right: 0px;
 
-    margin: 3px;
-    border-radius: 25px;
-    height: 100px;
+    border-radius: 15px;
+
     align-items: center;
-    justify-content: space-between;
 
+    background-color: #212021;
     background-position: right;
-    background-image: url("/common/icons/card-chevron.png");
 }
 
 .card-icon {
+    margin: 3px;
+    padding: 8px;
+
+    align-items: center;
+    justify-content: center;
+
+    height: 50px;
+    width: 50px;
+    flex-shrink: 0;
+
     background-color: #646363;
     border-radius: 50%;
+}
+
+.card-content {
+    flex: 1;
 }
